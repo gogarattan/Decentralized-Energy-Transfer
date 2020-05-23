@@ -1,0 +1,15 @@
+We can sell energy to Indian Government at Rs.2 per unit and Government sells it back to customers at much higher cost Rs.5 per unit (Punjab).
+Hence, our project removes Government (middleman) from selling and purchasing energy.
+
+
+money deducted without sending to national grid = 0.11 ether (in form of gas)
+
+energy purchased = 2.9 * 15 units = 43.5 units
+
+money deducted with purchasing from national grid = 0.17 ether
+
+increase in national grid account = 0.02 ether
+
+1 gas = 2 * 10^-8 ether
+
+1.26 kwh/hour

@@ -1,0 +1,3 @@
+Energy units in database = kWh
+Energy unit in code i.e. amount variable, historicalDemand, historicalSupply = Wh
+National Grid Price = 0.1 dollars / kWh
