@@ -5,7 +5,7 @@ const Exchange = require ('../build/Exchange.json');
 
 const instance = new web3.eth.Contract(
     JSON.parse(Exchange.interface),
-    '0x179B4eEd36ECe6bd659Ec7aeE6fdB8525098342d'
+    '0x97aDAA618017A80cb88414EED389F6CA37C29BC5'
 );
 
 // new web3.eth.Contract(interface, address)

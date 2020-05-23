@@ -110,7 +110,7 @@ class Agent{
     async buyFromNationalGrid(amount) { 
         let amountTransaction = this.nationalGridPrice * (amount/1000);
 
-        console.log("amount in wei = " + amountTransaction);
+        // console.log("amount in wei = " + amountTransaction);
 
         amountTransaction = parseInt( + amountTransaction.toFixed(18));
         let transactionReceipt = 0;

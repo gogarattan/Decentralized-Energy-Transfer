@@ -21,7 +21,7 @@ let agentsBattery = new Array();
 let numberOfBids = new Array();
 
 const outputFile = 'output.csv';
-const GASPRICE = 20000000000; // 20 GWEI
+const GASPRICE = 20000000000; // 20 GWEI 
 const PRICE_OF_ETHER = 250; 
 const WEI_IN_ETHER = 1000000000000000000;
 const NATIONAL_GRID_PRICE = 0.1; // dollars per kWh
@@ -46,7 +46,7 @@ async function init() {
     console.log(`using ${agentsBattery.length} amount of agents`);
     console.log('starting simulation');
 
-    for (let i = 0 ; i < 6 ; i++) {
+    for (let i = 10 ; i < 15 ; i++) {
         timeArray.push(i);
         console.log('time', i);
         
@@ -399,7 +399,8 @@ async function matchBids(bid_index, ask_index, bids, asks, agentsBattery, inters
 
     if(bids[bid_index].amount - asks[ask_index].amount >= 0) { // amount = total battery energy
         
-        let calcAmount = asks[ask_index].amount; // calcAmount = asks[ask_index].amount
+        let remainder = bids[bid_index].amount - asks[ask_index].amount;
+        let calcAmount = bids[bid_index].amount - remainder; // calcAmount = asks[ask_index].amount
 
         await obj.agent.sendFunds(intersection[1], calcAmount, asks[ask_index].address );
 
@@ -419,14 +420,14 @@ async function matchBids(bid_index, ask_index, bids, asks, agentsBattery, inters
 
     if(bids[bid_index].amount - asks[ask_index].amount < 0){
 
-        let calcAmount = bids[bid_index].amount;
+        let remainder = asks[ask_index].amount - bids[bid_index].amount;
+        let calcAmount = asks[ask_index].amount - remainder;
         
         await obj.agent.sendFunds(intersection[1], calcAmount, asks[ask_index].address );
 
         let objSeller = agentsBattery.find(function (obj) { return obj.agentAccount === asks[ask_index].address; });
         //objSeller.agent.discharge(calcAmount); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         objSeller.agent.addSuccessfulAsk(calcAmount);
-        
 
         asks[ask_index].amount = remainder;
 

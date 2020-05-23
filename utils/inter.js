@@ -7,18 +7,18 @@ const WEI_IN_ETHER = 1000000000000000000;
 const PRICE_OF_ETHER = 250;
 
 
-function slope(x1, y1, x2, y2) {
+function slope(x1, y1, x2, y2) {   // returns the slope of line
     if (x1 == x2) return false;
     return (y1 - y2) / (x1 - x2);
 }
 
-function yInt(x1, y1, x2, y2) {
+function yInt(x1, y1, x2, y2) { // returns the y-intersection of the line
     if (x1 === x2) return y1 === 0 ? 0 : false;
     if (y1 === y2) return y1;
     return y1 - slope(x1, y1, x2, y2) * x1 ;
 }
 
-function getIntersection(x11, y11, x12, y12, x21, y21, x22, y22) {
+function getIntersection(x11, y11, x12, y12, x21, y21, x22, y22) { // gives the coordinate of the intersection of two lines
     var slope1, slope2, yint1, yint2, intx, inty;
     if (x11 == x21 && y11 == y21) return [x11, y11];
     if (x12 == x22 && y12 == y22) return [x12, y22];
@@ -64,11 +64,8 @@ function calculateIntersection(array1, array2){
     let array2x = new Array();
     let array2y = new Array();
 
-
-
     let array1Polynomial = new Array();
     let array2Polynomial = new Array();
-
 
     let array1xsub = Array(array1DescendingPrice.length).fill(0);
 
@@ -107,30 +104,50 @@ function calculateIntersection(array1, array2){
     let equation1 = result1.string;
     let equation2 = result2.string;
 
+    // console.log("This is return value of regression " + equation1)
+    // console.log("This is return value of regression " + equation2)
+
+    //console.log(equation1)
+
     equation1 = equation1.replace(/\+ -/g, "-");
+
+    //console.log(equation1)
+
     equation1 = equation1.replace("y =", "");
 
     equation2 = equation2.replace(/\+ -/g, "-");
     equation2 = equation2.replace("y =", "");
+
+    // console.log("This is return value of regression " + equation1)
+    // console.log("This is return value of regression " + equation2)
+     
+    let equationFinal = `${equation1} = ${equation2}`;  
     
-    let equationFinal = `${equation1} = ${equation2}`;
-    
-    //put into equation and solve
+    // console.log(equationFinal)
+
+    // put into equation and solve
     var eq = new algebra.parse(equationFinal);
     var ans = eq.solveFor("x");
+
     let possibleIntersections = [];
     ans  =  ans.numer  / ans.denom;
+
+    // console.log(ans)
+
     let tempResult = result1.predict(ans);
+
+    // console.log(tempResult)
+
     intersection = tempResult;
 
     let minimum = tempResult[1];
     
     if(minimum == Infinity || minimum == undefined) {
-        minimum = 240000000000000;
+        minimum = 240000000000000;  // 0.06 dollar
     }
     intersection[1] = parseInt(minimum);
 
-    function convertArrayWeiToPounds(arrayWei, WEI_IN_ETHER, priceOfEther) {
+    /* function convertArrayWeiToPounds(arrayWei, WEI_IN_ETHER, priceOfEther) {
         let tempArray = new Array();
 
         for(let i=0; i<arrayWei.length; i++) {
@@ -144,7 +161,7 @@ function calculateIntersection(array1, array2){
     }
     
     array1y = convertArrayWeiToPounds(array1y, WEI_IN_ETHER , PRICE_OF_ETHER);
-    array2y = convertArrayWeiToPounds(array2y, WEI_IN_ETHER , PRICE_OF_ETHER);
+    array2y = convertArrayWeiToPounds(array2y, WEI_IN_ETHER , PRICE_OF_ETHER); */
 
     return intersection;
 }
