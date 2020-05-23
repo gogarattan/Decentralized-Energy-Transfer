@@ -78,7 +78,7 @@ function calculateIntersection(array1, array2){
         }
         array1x.push(array1DescendingPrice[i].amount);
         array1y.push(array1DescendingPrice[i].price);
-        array1Polynomial.push(new Array(array1xsub[i], array1y[i]));
+        array1Polynomial.push(new Array(array1xsub[i], array1y[i])); // pair of (cumulative_amount, price)
         
     }
 
@@ -94,14 +94,14 @@ function calculateIntersection(array1, array2){
         array2xsub.push(value); 
         array2x.push(array2AscendingPrice[i].amount);
         array2y.push(array2AscendingPrice[i].price);
-        array2Polynomial.push(new Array(array2xsub[i + 1], array2y[i + 1])); 
+        array2Polynomial.push(new Array(array2xsub[i + 1], array2y[i + 1]));  // pair of (cumulative_amount, price)
         
     }
 
-    const result1 = regression.linear(array1Polynomial)
+    const result1 = regression.linear(array1Polynomial); // returns the linear equation in the form of y = mx + c
     const result2 = regression.linear(array2Polynomial);
 
-    let equation1 = result1.string;
+    let equation1 = result1.string;  // y = -10763256472.18x + 250771639102639.03
     let equation2 = result2.string;
 
     // console.log("This is return value of regression " + equation1)
@@ -110,33 +110,21 @@ function calculateIntersection(array1, array2){
     //console.log(equation1)
 
     equation1 = equation1.replace(/\+ -/g, "-");
-
-    //console.log(equation1)
-
-    equation1 = equation1.replace("y =", "");
+    equation1 = equation1.replace("y =", ""); // -11335486468.1x + 257798398174713.56
 
     equation2 = equation2.replace(/\+ -/g, "-");
-    equation2 = equation2.replace("y =", "");
-
-    // console.log("This is return value of regression " + equation1)
-    // console.log("This is return value of regression " + equation2)
+    equation2 = equation2.replace("y =", "");  // -11335486468.1x + 257798398174713.56
      
-    let equationFinal = `${equation1} = ${equation2}`;  
-    
-    // console.log(equationFinal)
+    let equationFinal = `${equation1} = ${equation2}`;  // solving for x (cumulative amount)
 
-    // put into equation and solve
+    // put into equation and solve for x (cumulative amount)
     var eq = new algebra.parse(equationFinal);
-    var ans = eq.solveFor("x");
+    var ans = eq.solveFor("x"); // Returns x in form { [Number: 42714.33848209695] numer: 73299225628437140, denom: 1716033262675 }
 
     let possibleIntersections = [];
-    ans  =  ans.numer  / ans.denom;
+    ans  =  ans.numer  / ans.denom; // ans = intersection x i.e. cumulative amount
 
-    // console.log(ans)
-
-    let tempResult = result1.predict(ans);
-
-    // console.log(tempResult)
+    let tempResult = result1.predict(ans); // tempResult = prediction of price (y)
 
     intersection = tempResult;
 
@@ -163,7 +151,7 @@ function calculateIntersection(array1, array2){
     array1y = convertArrayWeiToPounds(array1y, WEI_IN_ETHER , PRICE_OF_ETHER);
     array2y = convertArrayWeiToPounds(array2y, WEI_IN_ETHER , PRICE_OF_ETHER); */
 
-    return intersection;
+    return intersection; // (cumulative_amount, predicted price in wei)
 }
 
 function sortDescending(a, b) {

@@ -156,7 +156,7 @@ async function init() {
     let csvData = new Array();
     
     //Calculating Parameters from simulation to plot
-    /*
+    
     for (let i = 0 ; i < 6 ; i++) {
         let demand = new Array();
         let supply = new Array();
@@ -262,7 +262,7 @@ async function init() {
     for(let i = 0; i < csvData.length; i++){
     csvStream.write(csvData[i]);
     }
-    csvStream.end(); */
+    csvStream.end();
 };
 
 init();
